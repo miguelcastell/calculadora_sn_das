@@ -1,78 +1,71 @@
-Calculadora DAS - Simples Nacional
-Uma aplicação web feita com Python + Streamlit para calcular o valor do DAS (Documento de Arrecadação do Simples Nacional) de empresas enquadradas nos Anexos III, IV e V da LC 123/2006.
+📊 Calculadora de DAS - Simples Nacional
+Projeto em Python com interface Streamlit que calcula:
 
+✅ Alíquota efetiva com base na receita bruta dos últimos 12 meses
 
+✅ Valor do DAS do mês
 
-🚀 Funcionalidades
-✅ Cálculo da alíquota efetiva e valor do DAS com base no faturamento e receita acumulada.
-✅ Suporte aos Anexos III, IV e V com base nas faixas, alíquotas e parcelas a deduzir da LC 123/2006.
-✅ Tratamento de retenção de ISS com cálculo ajustado.
-✅ Visualização da distribuição dos tributos por percentual.
-✅ Interface amigável e responsiva com Streamlit.
-✅ Modularização com arquivos externos .json para fácil manutenção.
+✅ Distribuição por imposto (IRPJ, CSLL, COFINS, PIS, CPP, ISS)
 
-📁 Estrutura do Projeto
+✅ Cálculo separado por Anexo (III, IV e V)
+
+🛠 Tecnologias
+Python 3.10+
+
+Streamlit
+
+JSON (para tabelas de alíquotas e partilhas)
+
+Pandas (opcional, se quiser importar Excel no futuro)
+
+🗂 Estrutura
 bash
 Copiar
 Editar
-calculadora_das_completa/
-├── main.py                      # Arquivo principal (interface Streamlit)
-├── layout.py                    # Layout e exibição de cabeçalho/logo
-├── calculo_das.py               # Funções de cálculo do DAS
-├── tabelas_simples.json         # Tabelas de faixas, alíquotas e deduções
-├── distribuicao_impostos.json  # Distribuição dos tributos por faixa e anexo
-├── logo.png                     # Logo da aplicação
-└── .streamlit/
-    └── secrets.toml             # (opcional) credenciais
-📊 Como funciona o cálculo
-A fórmula utilizada segue o art. 18 da LC 123/2006:
-
-java
-Copiar
-Editar
-Alíquota efetiva = [(RBT12 x Alíquota nominal) - Parcela a deduzir] / RBT12
-💡 RBT12 = Receita Bruta dos Últimos 12 Meses
-💰 DAS = Faturamento do mês x Alíquota efetiva
-
-🔧 Como rodar localmente
-Clone o repositório:
-
-bash
-Copiar
-Editar
-git clone https://github.com/seu-usuario/calculadora-das.git
-cd calculadora-das
-Instale as dependências:
-
+📁 seu_projeto/
+├── main.py                     # Interface Streamlit (front-end)
+├── calculo_das.py              # Funções de cálculo (back-end)
+├── tabelas_simples.json        # Faixas, alíquotas e parcelas a deduzir
+├── distribuicao_impostos.json # Percentuais por imposto (por anexo e faixa)
+├── README.md                   # Este arquivo
+▶️ Como rodar
 bash
 Copiar
 Editar
 pip install streamlit
-Rode o app:
-
-bash
-Copiar
-Editar
 streamlit run main.py
-🌐 Deploy na Web
-Você pode publicar seu app gratuitamente no Streamlit Cloud em poucos cliques.
+🧠 Como funciona
+O usuário seleciona o anexo (III, IV ou V)
 
-🛠 Exemplo de entrada
-Faturamento do mês: 25.000,00
+Informa:
 
-Receita 12 meses: 250.000,00
+Receita bruta acumulada dos últimos 12 meses
 
-Anexo: IV
+Faturamento do mês atual
 
-ISS retido? ✅
+O sistema calcula:
 
-Retorna:
+Faixa correta
 
-Alíquota efetiva com ISS retido
+Alíquota efetiva
 
-Valor total do DAS
+Valor do DAS
 
-Distribuição dos impostos (IRPJ, CSLL, PIS, etc.)
+Distribuição do DAS por tributo
+
+📌 Observações
+Baseado nas regras da LC 123/2006 (vigentes desde 01/01/2018)
+
+Os dados de faixas e percentuais são carregados dinamicamente via .json
+
+Pode ser estendido facilmente para Anexo I e II
+
+💼 Ideal para
+Escritórios contábeis
+
+MEIs e pequenas empresas no Simples
+
+Estudantes de Contabilidade e Programação
 
 👨‍💻 Autor
 Desenvolvido por Miguel Mantoan Castellani
