@@ -3,12 +3,19 @@ from layout import render_header
 from calculo_das import calcular_das
 
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
-st.sidebar.image("logo.png", width=150)
 
-render_header()
+# Tenta carregar logo na sidebar
+from os.path import exists
+if exists("logo.png"):
+    st.sidebar.image("logo.png", width=150)
+else:
+    st.sidebar.markdown("⚠️ Logo não encontrada")
 
-usuario = st.secrets["DB_USERNAME"]
-token = st.secrets["DB_TOKEN"]
+render_header()  # mostra o cabeçalho com a logo central
+
+# Remova se não usar secrets
+usuario = st.secrets.get("DB_USERNAME", "")
+token = st.secrets.get("DB_TOKEN", "")
 
 def parse_numero_br(valor_str):
     valor_str = valor_str.strip().replace(".", "").replace(",", ".")
@@ -30,12 +37,9 @@ def render_aba(anexo_label):
             aliq, das, distribuicao = calcular_das(anexo_label, faturamento, receita_12m)
 
             if possui_iss_retido:
-                try:
-                    pd = distribuicao.get("PD", 0)
-                    aliq_efetiva_iss = (receita_12m * aliq - pd) / receita_12m
-                    st.success(f"✅ Alíquota efetiva com ISS retido: **{aliq_efetiva_iss:.4%}**")
-                except ZeroDivisionError:
-                    st.error("❌ Receita dos últimos 12 meses não pode ser zero.")
+                pd = distribuicao.get("PD", 0)
+                aliq_efetiva_iss = (receita_12m * aliq - pd) / receita_12m
+                st.success(f"✅ Alíquota efetiva com ISS retido: **{aliq_efetiva_iss:.4%}**")
             else:
                 st.success(f"✅ Alíquota efetiva: **{aliq:.2%}**")
                 st.success(f"💰 Valor estimado do DAS: **R$ {das:,.2f}**")
@@ -49,6 +53,7 @@ def render_aba(anexo_label):
         except Exception as e:
             st.error(f"Erro inesperado: {str(e)}")
 
+# Abas para os anexos
 aba_iii, aba_iv, aba_v = st.tabs(["Anexo III", "Anexo IV", "Anexo V"])
 with aba_iii: render_aba("III")
 with aba_iv: render_aba("IV")
