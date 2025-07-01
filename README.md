@@ -1,75 +1,95 @@
-📊 Calculadora de DAS - Simples Nacional
-Projeto em Python com interface Streamlit que calcula:
+# 📊 CALCULADORA DE DAS - SIMPLES NACIONAL
 
-✅ Alíquota efetiva com base na receita bruta dos últimos 12 meses
+Sistema em Python com interface Streamlit para calcular o valor do DAS (Documento de Arrecadação do Simples Nacional), considerando todas as faixas, anexos e partilhas por imposto, com base na legislação vigente (LC 123/2006).
 
-✅ Valor do DAS do mês
+---
 
-✅ Distribuição por imposto (IRPJ, CSLL, COFINS, PIS, CPP, ISS)
+## ⚙️ FUNCIONALIDADES
 
-✅ Cálculo separado por Anexo (III, IV e V)
+✅ Cálculo da **alíquota efetiva** com base na receita bruta dos últimos 12 meses  
+✅ Cálculo do **valor do DAS** mensal  
+✅ Exibição da **faixa tributária** correta  
+✅ Distribuição do DAS por **IRPJ, CSLL, COFINS, PIS, CPP e ISS**  
+✅ Seleção de **Anexo III, IV ou V**  
+✅ Interface interativa com **Streamlit**  
+✅ Tabelas externas em **.json** (modular e editável)
 
-🛠 Tecnologias
-Python 3.10+
+---
 
-Streamlit
+## 🗂 ESTRUTURA DO PROJETO
 
-JSON (para tabelas de alíquotas e partilhas)
-
-Pandas (opcional, se quiser importar Excel no futuro)
-
-🗂 Estrutura
-bash
-Copiar
-Editar
+```
 📁 seu_projeto/
-├── main.py                     # Interface Streamlit (front-end)
-├── calculo_das.py              # Funções de cálculo (back-end)
-├── tabelas_simples.json        # Faixas, alíquotas e parcelas a deduzir
-├── distribuicao_impostos.json # Percentuais por imposto (por anexo e faixa)
+├── main.py                     # Interface com Streamlit
+├── calculo_das.py              # Lógica de cálculo
+├── tabelas_simples.json        # Tabelas com faixas e alíquotas
+├── distribuicao_impostos.json # Percentual de cada imposto por faixa/anexo
 ├── README.md                   # Este arquivo
-▶️ Como rodar
-bash
-Copiar
-Editar
+```
+
+---
+
+## ▶️ COMO EXECUTAR
+
+1. Instale as dependências:
+```bash
 pip install streamlit
+```
+
+2. Rode o sistema:
+```bash
 streamlit run main.py
-🧠 Como funciona
-O usuário seleciona o anexo (III, IV ou V)
+```
 
-Informa:
+---
 
-Receita bruta acumulada dos últimos 12 meses
+## 📈 EXEMPLO DE USO
 
-Faturamento do mês atual
+> Receita dos últimos 12 meses: R$ 280.000,00  
+> Receita do mês: R$ 12.000,00  
+> Anexo: **III**
 
-O sistema calcula:
+**Saída esperada**:
+- Alíquota efetiva: **11,09%**
+- Valor do DAS: **R$ 1.330,80**
+- Distribuição:
+  - IRPJ: R$ 46,58
+  - CSLL: R$ 46,58
+  - COFINS: R$ 167,98
+  - ...
 
-Faixa correta
+---
 
-Alíquota efetiva
+## 📚 BASE LEGAL
 
-Valor do DAS
+- Lei Complementar 123/2006
+- Tabelas do Simples Nacional vigentes desde **01/01/2018**
+- Alíquotas e percentuais extraídos diretamente da legislação
 
-Distribuição do DAS por tributo
+---
 
-📌 Observações
-Baseado nas regras da LC 123/2006 (vigentes desde 01/01/2018)
+## 💼 APLICÁVEL PARA
 
-Os dados de faixas e percentuais são carregados dinamicamente via .json
+- Escritórios de contabilidade
+- Profissionais autônomos e MEIs no Simples
+- Estudantes de Contabilidade e Programação
+- Empresas que desejam simular a carga tributária do Simples
 
-Pode ser estendido facilmente para Anexo I e II
+---
 
-💼 Ideal para
-Escritórios contábeis
+## 🧠 IDEIAS FUTURAS
 
-MEIs e pequenas empresas no Simples
+- Upload de planilhas Excel com receitas mês a mês  
+- Exportação em PDF ou CSV  
+- Adição de Anexo I e II  
+- Simulação de exclusão do Simples  
+- Análise gráfica da carga tributária por faixa
 
-Estudantes de Contabilidade e Programação
+---
 
-👨‍💻 Autor
-Desenvolvido por Miguel Mantoan Castellani
-Projeto acadêmico e prático para automação contábil.
+## 🤝 AUTORIA
 
-📄 Licença
-Este projeto está licenciado sob a MIT License – fique à vontade para usar, melhorar e compartilhar.
+Feito com 💻 por **Miguel Mantoan Castellani**  
+🚀 Transformando Contabilidade com Tecnologia
+
+---
