@@ -1,0 +1,26 @@
+{
+  "III": [
+    { "faixa": 1, "limite_superior": 180000.00, "aliquota": 0.06, "parcela_deduzir": 0.00 },
+    { "faixa": 2, "limite_superior": 360000.00, "aliquota": 0.112, "parcela_deduzir": 9360.00 },
+    { "faixa": 3, "limite_superior": 720000.00, "aliquota": 0.135, "parcela_deduzir": 17640.00 },
+    { "faixa": 4, "limite_superior": 1800000.00, "aliquota": 0.16, "parcela_deduzir": 35640.00 },
+    { "faixa": 5, "limite_superior": 3600000.00, "aliquota": 0.21, "parcela_deduzir": 125640.00 },
+    { "faixa": 6, "limite_superior": 4800000.00, "aliquota": 0.33, "parcela_deduzir": 648000.00 }
+  ],
+  "IV": [
+    { "faixa": 1, "limite_superior": 180000.00, "aliquota": 0.045, "parcela_deduzir": 0.00 },
+    { "faixa": 2, "limite_superior": 360000.00, "aliquota": 0.09, "parcela_deduzir": 8100.00 },
+    { "faixa": 3, "limite_superior": 720000.00, "aliquota": 0.102, "parcela_deduzir": 12420.00 },
+    { "faixa": 4, "limite_superior": 1800000.00, "aliquota": 0.14, "parcela_deduzir": 39780.00 },
+    { "faixa": 5, "limite_superior": 3600000.00, "aliquota": 0.22, "parcela_deduzir": 183780.00 },
+    { "faixa": 6, "limite_superior": 4800000.00, "aliquota": 0.33, "parcela_deduzir": 828000.00 }
+  ],
+  "V": [
+    { "faixa": 1, "limite_superior": 180000.00, "aliquota": 0.15, "parcela_deduzir": 0.00 },
+    { "faixa": 2, "limite_superior": 360000.00, "aliquota": 0.18, "parcela_deduzir": 4500.00 },
+    { "faixa": 3, "limite_superior": 720000.00, "aliquota": 0.195, "parcela_deduzir": 9900.00 },
+    { "faixa": 4, "limite_superior": 1800000.00, "aliquota": 0.205, "parcela_deduzir": 17100.00 },
+    { "faixa": 5, "limite_superior": 3600000.00, "aliquota": 0.23, "parcela_deduzir": 62100.00 },
+    { "faixa": 6, "limite_superior": 4800000.00, "aliquota": 0.305, "parcela_deduzir": 540000.00 }
+  ]
+}
