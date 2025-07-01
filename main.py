@@ -1,53 +1,61 @@
 import streamlit as st
-from layout import render_header
 from calculo_das import calcular_das
+from utils import parse_numero_br, formatar_moeda
 
-st.set_page_config(page_title="Calculadora DAS", layout="centered")
-render_header()
+def render_aba(anexo_label, atividade):
+    st.header(f"Simples Nacional — Anexo {anexo_label}")
+    st.markdown(f"**Atividade:** {atividade}")
 
-usuario = st.secrets["DB_USERNAME"]
-token = st.secrets["DB_TOKEN"]
+    rbt12_input = st.text_input("Receita Bruta dos últimos 12 meses (RBT12)", key=f"rbt12_{anexo_label}")
+    faturamento_mes_input = st.text_input("Faturamento do mês", key=f"faturamento_{anexo_label}")
 
-def parse_numero_br(valor_str):
-    valor_str = valor_str.strip().replace(".", "").replace(",", ".")
-    return float(valor_str)
+    # Checkbox para ISS retido
+    iss_retido = st.checkbox("Possui ISS Retido?", key=f"iss_retido_{anexo_label}")
+    valor_iss_retido = 0.0
+    if iss_retido:
+        valor_iss_retido_input = st.text_input("Valor do ISS retido (R$)", key=f"valor_iss_{anexo_label}")
+        if valor_iss_retido_input:
+            try:
+                valor_iss_retido = parse_numero_br(valor_iss_retido_input)
+            except ValueError:
+                st.error("Digite um valor válido para o ISS retido.")
 
-def render_aba(anexo_label):
-    st.subheader(f"Simulação para o Anexo {anexo_label}")
-
-    faturamento_input = st.text_input("Faturamento do mês (R$)", key=f"faturamento_{anexo_label}")
-    receita_12m_input = st.text_input("Receita acumulada dos últimos 12 meses (R$)", key=f"rbt12_{anexo_label}")
-    
-    possui_iss_retido = st.checkbox("Possui ISS retido?", key=f"iss_retido_{anexo_label}")
-
-    if st.button("Calcular", key=f"btn_{anexo_label}"):
+    if rbt12_input and faturamento_mes_input:
         try:
-            faturamento = parse_numero_br(faturamento_input)
-            receita_12m = parse_numero_br(receita_12m_input)
+            rbt12 = parse_numero_br(rbt12_input)
+            faturamento_mes = parse_numero_br(faturamento_mes_input)
 
-            aliq, das, distribuicao = calcular_das(anexo_label, faturamento, receita_12m)
+            resultado = calcular_das(
+                anexo=anexo_label,
+                rbt12=rbt12,
+                faturamento_mes=faturamento_mes
+            )
 
-            if possui_iss_retido:
-                try:
-                    pd = distribuicao.get("PD", 0)
-                    aliq_efetiva_iss = (receita_12m * aliq - pd) / receita_12m
-                    st.success(f"✅ Alíquota efetiva com ISS retido: **{aliq_efetiva_iss:.4%}**")
-                except ZeroDivisionError:
-                    st.error("❌ Receita dos últimos 12 meses não pode ser zero.")
-            else:
-                st.success(f"✅ Alíquota efetiva: **{aliq:.2%}**")
-                st.success(f"💰 Valor estimado do DAS: **R$ {das:,.2f}**")
+            das = resultado["valor_das"]
+            aliquota_efetiva = resultado["aliquota_efetiva"]
+            faixa = resultado["faixa"]
+            distribuicao = resultado["distribuicao"]
 
-            st.markdown("### 💡 Distribuição dos impostos:")
+            st.markdown("---")
+            st.subheader("Resultado")
+
+            st.write(f"🧮 **Alíquota efetiva:** {aliquota_efetiva:.2f}%")
+            st.write(f"📊 **Faixa:** {faixa}")
+            st.write(f"💰 **Valor do DAS:** {formatar_moeda(das)}")
+
+            if iss_retido and valor_iss_retido > 0:
+                st.markdown("---")
+                st.warning("💡 Como o ISS está retido, o valor será abatido do DAS.")
+                valor_ajustado = das - valor_iss_retido
+                valor_ajustado = max(valor_ajustado, 0)
+                st.success(f"💸 DAS a pagar com retenção de R$ {valor_iss_retido:,.2f}: **{formatar_moeda(valor_ajustado)}**")
+
+            st.markdown("---")
+            st.subheader("Distribuição dos Tributos:")
+
             for imposto, valor in distribuicao.items():
-                st.write(f"**{imposto}**: R$ {valor:,.2f}")
+                st.write(f"• {imposto}: {formatar_moeda(valor)}")
 
         except ValueError:
-            st.error("❌ Digite valores numéricos válidos. Ex: 10.000,00")
-        except Exception as e:
-            st.error(f"Erro inesperado: {str(e)}")
+            st.error("🚫 Por favor, digite valores válidos em RBT12 e Faturamento do mês.")
 
-aba_iii, aba_iv, aba_v = st.tabs(["Anexo III", "Anexo IV", "Anexo V"])
-with aba_iii: render_aba("III")
-with aba_iv: render_aba("IV")
-with aba_v: render_aba("V")
