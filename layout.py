@@ -5,9 +5,9 @@ def get_base64_of_bin_file(bin_file):
     with open(bin_file, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-#def render_header():
-  #  logo_base64 = get_base64_of_bin_file("logo.png)
-  #  html = f"""
+def render_header():
+    logo_base64 = get_base64_of_bin_file("logo.png)
+    html = f"""
     <style>
         .header-container {{
             display: flex;
