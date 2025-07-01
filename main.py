@@ -45,7 +45,6 @@ token = st.secrets["DB_TOKEN"]
 
 
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
-st.sidebar.image("logo.png", width=150)
 st.title("Calculadora de DAS - Simples Nacional")
 
 # Função para renderizar cada aba
