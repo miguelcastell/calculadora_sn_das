@@ -17,12 +17,12 @@ html_code = f"""
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 20px 0;
+        padding: 40px 0;
         border-bottom: 1px solid #eee;
     }}
     .header-container img {{
-        height: 80px;
-        margin-bottom: 10px;
+        height: 160px;
+        margin-bottom: 20px;
     }}
     .header-container h1 {{
         margin: 0;
