@@ -6,10 +6,6 @@ st.set_page_config(page_title="Calculadora DAS", layout="centered")
 
 # Tenta carregar logo na sidebar
 from os.path import exists
-if exists("logo.png"):
-    st.sidebar.image("logo.png", width=150)
-else:
-    st.sidebar.markdown("⚠️ Logo não encontrada")
 
 render_header()  # mostra o cabeçalho com a logo central
 
