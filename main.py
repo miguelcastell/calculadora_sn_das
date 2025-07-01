@@ -3,8 +3,6 @@ from layout import render_header
 from calculo_das import calcular_das
 
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
-st.sidebar.image("logo.png", width=150)
-
 render_header()
 
 usuario = st.secrets["DB_USERNAME"]
