@@ -1,5 +1,48 @@
 import streamlit as st
+import base64
+
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+logo_base64 = get_base64_of_bin_file("logo.png")
+
+html_code = f"""
+<style>
+    .header-container {{
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }}
+    .header-container img {{
+        height: 50px;
+        margin-right: 15px;
+    }}
+    .header-container h1 {{
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: #333;
+    }}
+</style>
+
+<div class="header-container">
+    <img src="data:image/png;base64,{logo_base64}" alt="Logo" />
+    <h1>🧮 Calculadora de DAS - Simples Nacional</h1>
+</div>
+"""
+
+st.markdown(html_code, unsafe_allow_html=True)
+
+
+import streamlit as st
 from calculo_das import calcular_das
+
+usuario = st.secrets["DB_USERNAME"]
+token = st.secrets["DB_TOKEN"]
+
 
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
 st.sidebar.image("logo.png", width=150)
