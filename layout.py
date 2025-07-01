@@ -16,5 +16,5 @@ def render_header():
             f'<div style="text-align: center;"><img src="data:image/png;base64,{logo_base64}" width="200"></div>',
             unsafe_allow_html=True
         )
-    st.title("🧮 Calculadora do Simples Nacional")
+    st.title("Calculadora do Simples Nacional")
     st.markdown("---")
