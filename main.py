@@ -1,6 +1,9 @@
 import streamlit as st
 import base64
 
+import streamlit as st
+import base64
+
 def get_base64_of_bin_file(bin_file):
     with open(bin_file, "rb") as f:
         data = f.read()
@@ -12,19 +15,21 @@ html_code = f"""
 <style>
     .header-container {{
         display: flex;
+        flex-direction: column;
         align-items: center;
-        padding: 10px 0;
+        padding: 20px 0;
         border-bottom: 1px solid #eee;
     }}
     .header-container img {{
-        height: 50px;
-        margin-right: 15px;
+        height: 80px;
+        margin-bottom: 10px;
     }}
     .header-container h1 {{
         margin: 0;
-        font-size: 2rem;
-        font-weight: 600;
+        font-size: 2.5rem;
+        font-weight: 700;
         color: #333;
+        text-align: center;
     }}
 </style>
 
@@ -45,6 +50,7 @@ token = st.secrets["DB_TOKEN"]
 
 
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
+st.sidebar.image("logo.png", width=150)
 st.title("Calculadora de DAS - Simples Nacional")
 
 # Função para renderizar cada aba
