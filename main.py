@@ -30,7 +30,7 @@ html_code = f"""
 
 <div class="header-container">
     <img src="data:image/png;base64,{logo_base64}" alt="Logo" />
-    <h1>🧮 Calculadora de DAS - Simples Nacional</h1>
+    <h1>Calculadora de DAS - Simples Nacional</h1>
 </div>
 """
 
