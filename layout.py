@@ -1,20 +1,40 @@
 import streamlit as st
 import base64
-import os
 
-def carregar_logo():
-    logo_path = "logo.png"
-    if os.path.exists(logo_path):
-        with open(logo_path, "rb") as f:
-            return base64.b64encode(f.read()).decode("utf-8")
-    return None
+def carregar_logo(logo_path="logo.png"):
+    with open(logo_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-def render_header():
+def exibir_logo_centralizada():
     logo_base64 = carregar_logo()
-    if logo_base64:
-        st.markdown(
-            f'<div style="text-align: center;"><img src="data:image/png;base64,{logo_base64}" width="200"></div>',
-            unsafe_allow_html=True
-        )
-    st.title("Calculadora do Simples Nacional")
-    st.markdown("---")
+
+    html_code = f"""
+    <style>
+        .header-container {{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }}
+        .header-container img {{
+            height: 80px;
+            margin-bottom: 10px;
+        }}
+        .header-container h1 {{
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            text-align: center;
+        }}
+    </style>
+
+    <div class="header-container">
+        <img src="data:image/png;base64,{logo_base64}" alt="Logo" />
+        <h1>Calculadora de DAS - Simples Nacional</h1>
+    </div>
+    """
+
+    st.markdown(html_code, unsafe_allow_html=True)
