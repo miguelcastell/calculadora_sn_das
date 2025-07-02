@@ -51,7 +51,7 @@ def render_aba(anexo_label):
             aliq, das, distribuicao = calcular_das(anexo_label, faturamento, receita_12m)
 
             st.success(f"✅ Alíquota efetiva: **{aliq:.2%}**")
-            st.success(f"💰 Valor estimado do DAS: **R$ {das:,.2f}**")
+            st.success(f"💰 Valor estimado do DAS (sem considerar retenções): **R$ {das:,.2f}**")
 
             st.markdown("### 💡 Distribuição dos impostos:")
             for imposto, valor in distribuicao.items():
@@ -69,11 +69,38 @@ def render_aba(anexo_label):
 
                     das_com_retencao = das - valor_iss_retido
                     das_com_retencao = max(das_com_retencao, 0.0)
+                    total_pago = das_com_retencao + valor_iss_retido
 
                     st.markdown("### 🧾 Resumo do cálculo com retenção de ISS")
-                    st.write(f"💰 **Valor total do DAS**: R$ {das:,.2f}")
+                    st.write(f"💰 **Valor total do DAS (cheio)**: R$ {das:,.2f}")
                     st.write(f"🧾 **ISS Retido (ajustado)**: R$ {valor_iss_retido:,.2f}")
-                    st.success(f"✅ **DAS a pagar após retenção**: R$ {das_com_retencao:,.2f}")
+                    st.write(f"✅ **DAS a pagar (guia)**: R$ {das_com_retencao:,.2f}")
+
+                    # Estilo condicional
+                    if das_com_retencao < das:
+                        cor = "#28a745"  # verde
+                        texto = "✅ Economia gerada pela retenção de ISS 💸"
+                    else:
+                        cor = "#dc3545"  # vermelho
+                        texto = "⚠️ Sem economia com retenção de ISS"
+
+                    st.markdown(
+                        f"""
+                        <div style='
+                            background-color:{cor}10;
+                            padding: 1rem;
+                            border-left: 5px solid {cor};
+                            border-radius: 0.5rem;
+                            margin-top: 1rem;
+                        '>
+                            <p style='color:{cor}; margin:0; font-weight: bold;'>{texto}</p>
+                            <p style='margin:0; font-size: 1.2rem; font-weight: bold;'>
+                                📊 Total de tributos pagos pela empresa: R$ {total_pago:,.2f}
+                            </p>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
         except ValueError:
             st.error("Digite valores numéricos válidos, ex: 10.000,00")
