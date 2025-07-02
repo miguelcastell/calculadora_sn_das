@@ -1,35 +1,32 @@
-import json
+def calcular_das_completo(anexo, faturamento, rbt12):
+    from tabelas import tabelas_simples, distribuicao
 
-# Carrega os dados
-with open("distribuicao_impostos.json", "r") as f:
-    distribuicao = json.load(f)
+    tabela = tabelas_simples[anexo]
+    for faixa in tabela:
+        if rbt12 <= faixa["limite"]:
+            aliquota = faixa["aliquota"] / 100
+            deducao = faixa["deducao"]
+            break
 
-with open("tabelas_simples.json", "r") as f:
-    tabelas_simples = json.load(f)
+    aliq_efetiva = ((faturamento * aliquota) - deducao) / faturamento
+    das = faturamento * aliq_efetiva
+
+    partilha = distribuicao[anexo]
+    dist = {imposto: round(das * perc, 2) for imposto, perc in partilha.items() if imposto != "PD"}
+
+    return aliq_efetiva, das, dist
 
 
-def encontrar_faixa(anexo: str, rbt12: float):
-    for faixa in tabelas_simples[anexo]:
-        if rbt12 <= faixa["limite_superior"]:
-            return faixa
-    raise ValueError("Receita bruta ultrapassa o limite do Simples Nacional.")
+def calcular_totais_contabeis(das, distribuicao, iss_retido):
+    iss_distribuido = distribuicao.get("ISS", 0)
+    iss_final = iss_retido
+    das_sem_iss = das - iss_distribuido
+    total_pago = das_sem_iss + iss_final
 
-
-def calcular_das(anexo: str, receita_bruta: float, rbt12: float):
-    anexo = anexo.upper()
-    faixa = encontrar_faixa(anexo, rbt12)
-    
-    # Cálculo da alíquota efetiva
-    aliq_efetiva = ((rbt12 * faixa["aliquota"]) - faixa["parcela_deduzir"]) / rbt12
-    
-    valor_das = receita_bruta * aliq_efetiva
-
-    faixa_num = faixa["faixa"]
-    distribuicao_faixa = distribuicao[anexo][str(faixa_num)]
-    
-    valores_por_imposto = {
-        imposto: valor_das * percentual
-        for imposto, percentual in distribuicao_faixa.items()
+    return {
+        "das_total": round(das, 2),
+        "iss_distribuido": round(iss_distribuido, 2),
+        "iss_retido": round(iss_retido, 2),
+        "das_sem_iss": round(das_sem_iss, 2),
+        "total_contabil": round(total_pago, 2)
     }
-
-    return aliq_efetiva, valor_das, valores_por_imposto
