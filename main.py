@@ -5,7 +5,6 @@ from calculo_das import calcular_das_completo, calcular_totais_contabeis
 st.set_page_config(page_title="Calculadora DAS", layout="centered")
 exibir_logo_centralizada()
 
-# ✅ Fonte personalizada
 st.markdown("""
     <style>
     html, body, [class*="css"] {
@@ -44,26 +43,26 @@ def render_aba(anexo):
             aliq, das, distribuicao = calcular_das_completo(anexo, faturamento, receita_12m)
             totais = calcular_totais_contabeis(das, distribuicao, valor_iss_retido)
 
-            st.success(f"✅ Alíquota efetiva: **{aliq:.2%}**")
-            st.success(f"💰 DAS calculado sobre o faturamento: **R$ {totais['das_total']:,.2f}**")
+            st.success(f"Alíquota efetiva: **{aliq:.2%}**")
+            st.success(f"DAS calculado sobre o faturamento: **R$ {totais['das_total']:,.2f}**")
 
-            st.markdown("### 💡 Distribuição estimada dos impostos:")
+            st.markdown("### Distribuição estimada dos impostos:")
             for imposto, valor in distribuicao.items():
                 if imposto != "PD":
                     st.write(f"**{imposto}**: R$ {valor:,.2f}")
 
             if iss_retido and valor_iss_retido > 0:
                 st.markdown("---")
-                st.warning("💡 O ISS informado como retido será considerado no total contábil.")
+                st.warning("O ISS informado como retido será considerado no total contábil.")
 
                 cor = "#28a745" if totais['das_sem_iss'] + totais['iss_retido'] < totais['das_total'] else "#dc3545"
                 texto = "✅ Economia gerada pela retenção de ISS 💸" if cor == "#28a745" else "⚠️ Sem economia com retenção de ISS"
 
                 st.markdown(f"""
-                    ### 🧾 Resumo contábil com retenção de ISS
-                    - 💰 **DAS cheio:** R$ {totais['das_total']:,.2f}
-                    - 🧾 **ISS Retido (ajustado):** R$ {totais['iss_retido']:,.2f}
-                    - 💸 **DAS sem o ISS:** R$ {totais['das_sem_iss']:,.2f}
+                    ### Resumo contábil com retenção de ISS
+                    - **DAS cheio:** R$ {totais['das_total']:,.2f}
+                    - **ISS Retido (ajustado):** R$ {totais['iss_retido']:,.2f}
+                    - **DAS sem o ISS:** R$ {totais['das_sem_iss']:,.2f}
                 """)
 
                 st.markdown(f"""
@@ -75,7 +74,7 @@ def render_aba(anexo):
                         margin-top: 1rem;'>
                         <p style='color:{cor}; margin:0; font-weight: bold;'>{texto}</p>
                         <p style='margin:0; font-size: 1.2rem; font-weight: bold;'>
-                            📊 Total de tributos pagos pela empresa: R$ {totais['total_contabil']:,.2f}
+                            Total de tributos pagos pela empresa: R$ {totais['total_contabil']:,.2f}
                         </p>
                     </div>
                 """, unsafe_allow_html=True)
