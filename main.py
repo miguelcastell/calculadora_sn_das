@@ -56,7 +56,7 @@ def render_aba(anexo):
                 st.warning("O ISS informado como retido será considerado no total contábil.")
 
                 cor = "#28a745" if totais['das_sem_iss'] + totais['iss_retido'] < totais['das_total'] else "#dc3545"
-                texto = "✅ Economia gerada pela retenção de ISS 💸" if cor == "#28a745" else "⚠️ Sem economia com retenção de ISS"
+                texto = "Economia gerada pela retenção de ISS " if cor == "#28a745" else "Sem economia com retenção de ISS"
 
                 st.markdown(f"""
                     ### Resumo contábil com retenção de ISS
